@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  title: Notification Service
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000
+
+paths:
+  /send-notification/:
+    post:
+      summary: Send a notification email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationRequest'
+      responses:
+        '200':
+          description: Notification sent successfully
+        '500':
+          description: Error sending notification
+
+components:
+  schemas:
+    NotificationRequest:
+      type: object
+      required:
+        - email
+        - subject
+        - message
+      properties:
+        email:
+          type: string
+          format: email
+        subject:
+          type: string
+        message:
+          type: string

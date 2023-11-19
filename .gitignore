@@ -1,0 +1,11 @@
+# gitignore for pythong and macos
+#
+.DS_Store
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info
+dist/
+build/

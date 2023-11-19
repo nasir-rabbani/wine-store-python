@@ -1,0 +1,107 @@
+openapi: 3.0.0
+info:
+  title: Wine Store Product Service
+  description: API for managing products in the wine store
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5000
+    description: Local development server
+
+paths:
+  /products:
+    get:
+      summary: List all products
+      description: Retrieve a list of all products available in the store
+      responses:
+        '200':
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+
+  /product/{productId}:
+    get:
+      summary: Get a specific product
+      description: Retrieve details of a specific product by its ID
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: Unique ID of the product
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Details of a specific product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Product not found
+
+    post:
+      summary: Add a new product
+      description: Add a new product to the store
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                productId:
+                  type: string
+                  description: Unique identifier for the product
+                name:
+                  type: string
+                  description: Name of the product
+                price:
+                  type: number
+                  format: float
+                  description: Price of the product
+                description:
+                  type: string
+                  description: Description of the product
+                image:
+                  type: string
+                  format: binary
+                  description: Image file of the product
+      responses:
+        '201':
+          description: Product created successfully
+        '400':
+          description: Invalid input
+
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - productId
+        - name
+        - price
+        - description
+        - image_url
+      properties:
+        productId:
+          type: string
+          description: Unique identifier for the product
+        name:
+          type: string
+          description: Name of the product
+        price:
+          type: number
+          format: float
+          description: Price of the product
+        description:
+          type: string
+          description: Description of the product
+        image_url:
+          type: string
+          format: uri
+          description: URL of the product's image

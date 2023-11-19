@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  title: Wine Store Order Service
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5000
+
+paths:
+  /orders:
+    post:
+      summary: Create a new order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                orderId:
+                  type: string
+                items:
+                  type: array
+                  items:
+                    type: string
+                total:
+                  type: number
+              required:
+                - orderId
+                - items
+                - total
+      responses:
+        '201':
+          description: Order created successfully
+
+  /orders/{orderId}:
+    get:
+      summary: Get an order by ID
+      parameters:
+        - in: path
+          name: orderId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Order details
+        '404':
+          description: Order not found
